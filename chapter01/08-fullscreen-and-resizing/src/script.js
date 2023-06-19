@@ -46,14 +46,22 @@ const renderer = new THREE.WebGLRenderer({
 })
 renderer.setSize(sizes.width, sizes.height)
 
+window.addEventListener('resize', () => {
+    console.log('window has been resized');
+    // Update sizes
+    sizes.height = window.innerHeight;
+    sizes.width = window.innerWidth;
+    // Update camera
+    camera.aspect = sizes.width / sizes.height;
+    camera.updateProjectionMatrix();
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height);
+})
+
 /**
  * Animate
  */
-const clock = new THREE.Clock()
-
-const tick = () =>
-{
-    const elapsedTime = clock.getElapsedTime()
+const tick = () => {
 
     // Update controls
     controls.update()
