@@ -1,5 +1,7 @@
 import * as THREE from 'three'
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+
+THREE.ColorManagement.enabled = false
 
 /**
  * Base
@@ -26,20 +28,20 @@ const sizes = {
     height: window.innerHeight
 }
 
-// window.addEventListener('resize', () =>
-// {
-//     // Update sizes
-//     sizes.width = window.innerWidth
-//     sizes.height = window.innerHeight
+window.addEventListener('resize', () =>
+{
+    // Update sizes
+    sizes.width = window.innerWidth
+    sizes.height = window.innerHeight
 
-//     // Update camera
-//     camera.aspect = sizes.width / sizes.height
-//     camera.updateProjectionMatrix()
+    // Update camera
+    camera.aspect = sizes.width / sizes.height
+    camera.updateProjectionMatrix()
 
-//     // Update renderer
-//     renderer.setSize(sizes.width, sizes.height)
-//     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-// })
+    // Update renderer
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+})
 
 /**
  * Camera
@@ -52,8 +54,8 @@ camera.position.z = 1
 scene.add(camera)
 
 // Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
+const controls = new OrbitControls(camera, canvas)
+controls.enableDamping = true
 
 /**
  * Renderer
@@ -61,28 +63,27 @@ scene.add(camera)
 const renderer = new THREE.WebGLRenderer({
     canvas: canvas
 })
+renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-renderer.render(scene, camera)
-
 
 /**
  * Animate
  */
-// const clock = new THREE.Clock()
+const clock = new THREE.Clock()
 
-// const tick = () =>
-// {
-//     const elapsedTime = clock.getElapsedTime()
+const tick = () =>
+{
+    const elapsedTime = clock.getElapsedTime()
 
-//     // Update controls
-//     controls.update()
+    // Update controls
+    controls.update()
 
-//     // Render
-//     renderer.render(scene, camera)
+    // Render
+    renderer.render(scene, camera)
 
-//     // Call tick again on the next frame
-//     window.requestAnimationFrame(tick)
-// }
+    // Call tick again on the next frame
+    window.requestAnimationFrame(tick)
+}
 
-// tick()
+tick()
